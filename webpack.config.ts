@@ -13,12 +13,12 @@ export default {
   module: {
     rules: [
       {
-        test: /$.ts/,
+        test: /.tsx?$/,
         use: [{ loader: 'ts-loader' }],
       },
     ],
   },
   resolve: {
-    extensions: ['.ts'],
+    extensions: ['.ts', '.tsx', '.js'],
   },
 } as Configuration;
