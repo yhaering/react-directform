@@ -1,22 +1,20 @@
 {
   "compilerOptions": {
+    "module": "CommonJS",
+    "target": "ES2015",
+    "moduleResolution": "Node",
+    "lib": ["es5", "es6", "dom"],
+    "removeComments": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "sourceMap": true,
-    "module": "ESNext",
-    "target": "ESNext",
-    "moduleResolution": "node",
-    "outDir": "./dist/esm",
-    "jsx": "react",
+    "esModuleInterop": true,
     "skipLibCheck": true,
-    "declaration": true,
-    "noEmit": true,
-    "allowSyntheticDefaultImports": true,
-    "lib": ["dom", "dom.iterable", "esnext"],
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
+    "declaration": true,
+    "declarationDir": "types",
+    "jsx": "react"
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "src/*.test.ts", "src/*.test.tsx", "src/__mocks__"]
+  "exclude": ["src/**/*.test.ts"],
+  "include": ["src/**/*.ts"]
 }

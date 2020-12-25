@@ -6,7 +6,6 @@ npm-debug.log*
 # Build files
 types/
 dist/
-esm/
 docs/
 
 # Test files
