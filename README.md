@@ -326,10 +326,10 @@ function App() {
 
   return (
     <DirectForm value={value} onSubmit={setValue}>
-      {({ getValue, register, submit }) => (
+      {({ getList, register, submit }) => (
         <input {...register('person.firstname')} />
         <input {...register('person.lastname')} />
-        {getValue('estates').map((data, index) => (
+        {getList('estates').map((data, index) => (
           <input {...register(`estates[${index}].price`)} />
         ))}
         <button onClick={submit}>Submit</button>
@@ -384,7 +384,233 @@ function App() {
 
 ### DirectForm
 
+#### value
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+|          |      |         |             |
+
+##### Example
+
+#### onChange
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+|          |      |         |             |
+
+##### Example
+
+#### onSubmit
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+|          |      |         |             |
+
+##### Example
+
+#### prefix
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+|          |      |         |             |
+
+##### Example
+
+#### submitOnChange
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+|          |      |         |             |
+
+##### Example
+
+#### submitOnBlur
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+|          |      |         |             |
+
+##### Example
+
+#### validateOnInit
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+|          |      |         |             |
+
+##### Example
+
+#### validateOnChange
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+|          |      |         |             |
+
+##### Example
+
+#### validateOnBlur
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+|          |      |         |             |
+
+##### Example
+
+#### validateOnSubmit
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+|          |      |         |             |
+
+##### Example
+
+#### validateInvalid
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+|          |      |         |             |
+
+##### Example
+
+#### schema
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+|          |      |         |             |
+
+##### Example
+
+#### customRegister
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+|          |      |         |             |
+
+##### Example
+
+### DirectFormContext
+
+#### data
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+|          |      |         |             |
+
+##### Example
+
+#### validate
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+|          |      |         |             |
+
+##### Example
+
+#### getError
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+|          |      |         |             |
+
+##### Example
+
+#### errors
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+|          |      |         |             |
+
+##### Example
+
+#### getValue
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+|          |      |         |             |
+
+##### Example
+
+#### getList
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+|          |      |         |             |
+
+##### Example
+
+#### setValue
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+|          |      |         |             |
+
+##### Example
+
+#### submit
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+|          |      |         |             |
+
+##### Example
+
+#### registerForm
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+|          |      |         |             |
+
+##### Example
+
+#### register
+
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+|          |      |         |             |
+
+##### Example
+
 ### DirectFormSettings
+
+#### customRegister
+
+| Property       | Type              | Default | Description                                                              |
+| -------------- | ----------------- | ------- | ------------------------------------------------------------------------ |
+| customRegister | CustomRegisterFnc | -       | Can be used to globally overwrite the behaviour of the `register` method |
+
+##### Example
+
+```typescript jsx
+import React, { useState } from 'react';
+import { DirectForm, DirectFormSettings } from 'react-directform';
+import { object, string } from 'yup';
+import { TextField } from '@material-ui/core';
+
+function App() {
+  const [value1, setValue1] = useState();
+  const [value2, setValue2] = useState();
+
+  // Custom register method to add the validation errors to material ui TextFields
+  function register(ctx: DirectFormContextData<any>, org: DirectFormContextData<any>['register']) {
+    return (path: string, value?: 'value' | 'checked') => ({
+      ...org(path, value),
+      error: !!ctx.getError(path),
+      helperText: ctx.getError(path),
+    });
+  }
+
+  return (
+    <DirectFormSettings customRegister={register}>
+      <DirectForm value={value1} onSubmit={setValue1}>
+        ...
+      </DirectForm>
+      <DirectForm value={value2} onSubmit={setValue2}>
+        ...
+      </DirectForm>
+    </DirectFormSettings>
+  );
+}
+```
 
 ## Hooks
 
