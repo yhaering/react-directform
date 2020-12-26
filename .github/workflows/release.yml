@@ -1,8 +1,11 @@
 name: Release
 
 on:
-  release:
-    types: [created]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version'
+        required: true
 
 jobs:
   release:
@@ -19,6 +22,7 @@ jobs:
       - run: npm run build:cjs
       - run: npm run build:umd
       - run: npm run build:esm
+      - run: npm version ${{ github.event.inputs.version }}
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
