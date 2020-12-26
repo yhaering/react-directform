@@ -6,7 +6,7 @@ A simple way to modify complex data with react forms
 [![npm](https://img.shields.io/npm/v/react-directform)](https://www.npmjs.com/package/react-directform)
 [![NPM](https://img.shields.io/npm/l/react-directform)](https://www.npmjs.com/package/react-directform)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/yhaering/react-directform/Continues%20Integration)
-[![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-directform)](https://bundlephobia.com/result?p=react-directform)
+[![npm bundle size (version)](https://img.shields.io/bundlephobia/minzip/react-directform/latest)](https://bundlephobia.com/result?p=react-directform@latest)
 [![Maintainability](https://api.codeclimate.com/v1/badges/d01900bcdd97d166f417/maintainability)](https://codeclimate.com/github/yhaering/react-directform/maintainability)
 
 ## Install
