@@ -1,9 +1,10 @@
 import React, { FormEvent, ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { DirectFormContext, DirectFormContextData } from './DirectFormContext';
-import { get, set } from 'lodash';
 
 import { ObjectSchema, ValidationError } from 'yup';
 import { DirectFormSettingsContext } from '../DirectFormSettings/DirectFormSettingsContext';
+import { get } from '../../functions/get';
+import { set } from '../../functions/set';
 
 export interface DirectFormProps<T extends object> {
   children: ReactNode | ReactNode[] | ((context: DirectFormContextData<T>) => JSX.Element);
