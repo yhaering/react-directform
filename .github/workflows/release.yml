@@ -1,28 +1,22 @@
 name: Release
 
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Version'
-        required: true
+  release:
+    types: [created]
 
 jobs:
   release:
     runs-on: ubuntu-latest
-    environment: NPM
+    environment: npm
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
-        with:
-          registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: npm run lint
       - run: npm run test
       - run: npm run build:cjs
       - run: npm run build:umd
       - run: npm run build:esm
-      - run: npm version ${{ github.event.inputs.version }}
       - run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+          NODE_AUTH_TOKEN: ${{secrets.NODE_AUTH_TOKEN}}
