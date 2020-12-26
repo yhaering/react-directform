@@ -20,7 +20,7 @@ npm install react-directform
 ```typescript jsx
 import React, { useState } from 'react';
 import { DirectForm } from 'react-directform';
-import { object } from 'yup';
+import { object, string } from 'yup';
 
 function App() {
   const [value, setValue] = useState();
@@ -38,6 +38,7 @@ function App() {
           {getError('firstname')}
           <input {...register('lastname')} />
           {getError('lastname')}
+          <input type={'submit'} />
         </form>
       )}
     </DirectForm>
