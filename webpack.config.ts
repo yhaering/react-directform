@@ -10,6 +10,10 @@ export default {
     path: path.resolve(__dirname, 'dist'),
     libraryTarget: 'commonjs2',
   },
+  externals: {
+    react: 'react',
+    yup: 'yup',
+  },
   module: {
     rules: [
       {
