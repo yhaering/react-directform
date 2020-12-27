@@ -6,13 +6,7 @@ export default {
   mode: 'production',
   devtool: 'source-map',
   output: {
-    filename: 'react-directform.cjs.js',
     path: path.resolve(__dirname, 'dist'),
-    libraryTarget: 'commonjs2',
-  },
-  externals: {
-    react: 'react',
-    yup: 'yup',
   },
   module: {
     rules: [

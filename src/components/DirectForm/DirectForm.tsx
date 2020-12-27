@@ -1,10 +1,11 @@
-import React, { FormEvent, ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, { FormEvent, ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { DirectFormContext, DirectFormContextData } from './DirectFormContext';
 
 import { ObjectSchema, ValidationError } from 'yup';
 import { DirectFormSettingsContext } from '../DirectFormSettings/DirectFormSettingsContext';
 import { get } from '../../functions/get';
 import { set } from '../../functions/set';
+import { CustomRegisterFnc } from './CustomRegisterFnc';
 
 export interface DirectFormProps<T extends object> {
   children: ReactNode | ReactNode[] | ((context: DirectFormContextData<T>) => JSX.Element);
@@ -12,6 +13,7 @@ export interface DirectFormProps<T extends object> {
   onChange?: (value: T) => void;
   onSubmit?: (value: T) => void;
   prefix?: string;
+  removeUndefined?: boolean;
   submitOnChange?: boolean;
   submitOnBlur?: boolean;
   validateOnInit?: boolean;
@@ -20,10 +22,7 @@ export interface DirectFormProps<T extends object> {
   validateOnSubmit?: boolean;
   validateInvalid?: boolean;
   schema?: ObjectSchema<any>;
-  customRegister?: (
-    ctx: DirectFormContextData<any>,
-    org: DirectFormContextData<any>['register'],
-  ) => DirectFormContextData<any>['register'];
+  customRegister?: CustomRegisterFnc;
 }
 
 export function DirectForm<T extends object>({
@@ -31,6 +30,7 @@ export function DirectForm<T extends object>({
   onSubmit,
   submitOnChange,
   submitOnBlur,
+  removeUndefined = true,
   validateOnInit,
   validateOnChange,
   validateInvalid = true,
@@ -120,15 +120,22 @@ export function DirectForm<T extends object>({
   const setValue = useCallback(
     (path: string, newValue: string | number | boolean | T) => {
       const newValues = { ...internalValue };
-      set(newValues, path, newValue);
+      if (removeUndefined && newValue === '') {
+        set(newValues, path, undefined);
+      } else {
+        set(newValues, path, newValue);
+      }
       onChange && onChange(newValues);
       setInternalValue(newValues);
       trueInternalValue.current = newValues;
       if ((validateInvalid && errors[path]) || validateOnChange) {
         validate();
       }
+      if (submitOnChange) {
+        submit();
+      }
     },
-    [errors, internalValue, onChange, validate, validateInvalid, validateOnChange],
+    [errors, internalValue, onChange, submit, submitOnChange, validate, validateInvalid, validateOnChange],
   );
 
   /**
@@ -139,7 +146,6 @@ export function DirectForm<T extends object>({
       const data = {
         onChange: (e) => {
           setValue(path, e.target[valueProp]);
-          submitOnChange && submit();
         },
         value: getValue(path) || '',
         name: `${prefix ? `${prefix}.` : ''}${path}`,
@@ -158,7 +164,7 @@ export function DirectForm<T extends object>({
 
       return data;
     },
-    [getValue, prefix, setValue, submit, submitOnBlur, submitOnChange, validate, validateOnBlur],
+    [getValue, prefix, setValue, submit, submitOnBlur, validate, validateOnBlur],
   );
 
   /**
@@ -187,7 +193,7 @@ export function DirectForm<T extends object>({
     [getValue],
   );
 
-  const data: DirectFormContextData<T> = useMemo(() => {
+  function getContextData() {
     const data = {
       errors,
       validate,
@@ -208,20 +214,9 @@ export function DirectForm<T extends object>({
     }
 
     return data;
-  }, [
-    errors,
-    validate,
-    getError,
-    value,
-    getList,
-    registerForm,
-    register,
-    getValue,
-    setValue,
-    submit,
-    settings,
-    customRegister,
-  ]);
+  }
+
+  const data = getContextData();
 
   return (
     <DirectFormContext.Provider value={data}>

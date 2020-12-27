@@ -18,7 +18,7 @@
     "dev": "webpack serve --config webpack.sandbox.ts",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "build:cjs": "webpack",
+    "build:cjs": "webpack --config webpack.cjs.ts",
     "build:umd": "webpack --config webpack.umd.ts",
     "build:esm": "tsc --project tsconfig.esm.json",
     "lint": "eslint src",

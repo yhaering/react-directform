@@ -1,21 +1,11 @@
-import { mergeWithCustomize } from 'webpack-merge';
+import { merge } from 'webpack-merge';
 import defaultConfig from './webpack.config';
 import HtmlWebpackPlugin = require('html-webpack-plugin');
 
-export default mergeWithCustomize({
-  customizeObject: (a, b, key) => {
-    if (key === 'output') {
-      return {
-        filename: 'index.js',
-      };
-    }
-    return undefined;
-  },
-})(defaultConfig, {
+export default merge(defaultConfig, {
   entry: './sandbox/index.tsx',
   mode: 'development',
   devtool: 'source-map',
-  output: {},
   module: {
     rules: [
       {
